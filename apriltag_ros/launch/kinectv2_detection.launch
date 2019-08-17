@@ -1,27 +1,12 @@
-<launch>
-<!--  start usb_cam-->
-  <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
-    <param name="video_device" value="/dev/video1" />
-    <param name="image_width" value="640" />
-    <param name="image_height" value="480" />
-    <param name="pixel_format" value="yuyv" />
-    <param name="camera_frame_id" value="usb_cam" />
-    <param name="io_method" value="mmap"/>
-  </node>
-
-<!--  <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">-->
-<!--    <remap from="image" to="/tag_detections_image"/>-->
-<!--    <param name="autosize" value="true" />-->
-<!--  </node>-->
-
+<launch> 
 <!--  strt apriltag detection process-->
 
 
   <arg name="launch_prefix" default="" /> <!-- set to value="gdbserver localhost:10000" for remote debugging -->
   <arg name="node_namespace" default="apriltag_ros_continuous_node" />
-  <arg name="camera_name" default="/usb_cam" />
-  <arg name="camera_frame" default="camera0" />
-  <arg name="image_topic" default="image_raw" />
+  <arg name="camera_name" default="/kinect2/qhd" />
+  <arg name="camera_frame" default="/kinect2_rgb_optical_frame" />
+  <arg name="image_topic" default="image_color_rect" />
 
   <!-- Set parameters -->
   <rosparam command="load" file="$(find apriltag_ros)/config/settings.yaml" ns="$(arg node_namespace)" />

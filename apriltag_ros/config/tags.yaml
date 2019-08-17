@@ -20,6 +20,8 @@
 standalone_tags:
 
   [
+    {id: 11, size: 0.0415, name: test7},
+    {id: 12, size: 0.0415, name: test6},
     {id: 5, size: 0.045, name: test5},
     {id: 4, size: 0.045, name: test4},
     {id: 3, size: 0.045, name: test3},
