@@ -64,10 +64,10 @@
 
 #include "apriltag.h"
 
-#include "apriltag_ros/AprilTagDetection.h"
-#include "apriltag_ros/AprilTagDetectionArray.h"
+#include "apriltag_arm_ros/AprilTagDetection.h"
+#include "apriltag_arm_ros/AprilTagDetectionArray.h"
 
-namespace apriltag_ros
+namespace apriltag_arm_ros
 {
 
 template<typename T>
@@ -234,6 +234,6 @@ class TagDetector
   void drawDetections(cv_bridge::CvImagePtr image);
 };
 
-} // namespace apriltag_ros
+} // namespace apriltag_arm_ros
 
 #endif // APRILTAG_ROS_COMMON_FUNCTIONS_H

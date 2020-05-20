@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(apriltag_ros)
+project(apriltag_arm_ros)
 
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
@@ -70,7 +70,7 @@ catkin_package(
   INCLUDE_DIRS include
   CATKIN_DEPENDS geometry_msgs image_transport roscpp sensor_msgs std_msgs message_runtime cv_bridge tf nodelet pluginlib
   DEPENDS OpenCV apriltag
-  LIBRARIES ${PROJECT_NAME}_common ${PROJECT_NAME}_continuous_detector ${PROJECT_NAME}_single_image_detector
+  LIBRARIES apriltag_ros_common apriltag_ros_continuous_detector apriltag_ros_single_image_detector
 )
 
 ###########
@@ -83,27 +83,27 @@ include_directories(include
   ${OpenCV_INCLUDE_DIRS}
 )
 
-add_library(${PROJECT_NAME}_common src/common_functions.cpp)
-add_dependencies(${PROJECT_NAME}_common ${PROJECT_NAME}_generate_messages_cpp)
-target_link_libraries(${PROJECT_NAME}_common ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${apriltag_LIBRARIES})
+add_library(apriltag_ros_common src/common_functions.cpp)
+add_dependencies(apriltag_ros_common apriltag_ros_generate_messages_cpp)
+target_link_libraries(apriltag_ros_common ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${apriltag_LIBRARIES})
 
-add_library(${PROJECT_NAME}_continuous_detector src/continuous_detector.cpp)
-target_link_libraries(${PROJECT_NAME}_continuous_detector ${PROJECT_NAME}_common ${catkin_LIBRARIES})
+add_library(apriltag_ros_continuous_detector src/continuous_detector.cpp)
+target_link_libraries(apriltag_ros_continuous_detector apriltag_ros_common ${catkin_LIBRARIES})
 
-add_library(${PROJECT_NAME}_single_image_detector src/single_image_detector.cpp)
-target_link_libraries(${PROJECT_NAME}_single_image_detector ${PROJECT_NAME}_common ${catkin_LIBRARIES})
+add_library(apriltag_ros_single_image_detector src/single_image_detector.cpp)
+target_link_libraries(apriltag_ros_single_image_detector apriltag_ros_common ${catkin_LIBRARIES})
 
-add_executable(${PROJECT_NAME}_continuous_node src/${PROJECT_NAME}_continuous_node.cpp)
-add_dependencies(${PROJECT_NAME}_continuous_node ${PROJECT_NAME}_generate_messages_cpp)
-target_link_libraries(${PROJECT_NAME}_continuous_node ${PROJECT_NAME}_continuous_detector ${catkin_LIBRARIES})
+add_executable(apriltag_ros_continuous_node src/apriltag_ros_continuous_node.cpp)
+add_dependencies(apriltag_ros_continuous_node apriltag_ros_generate_messages_cpp)
+target_link_libraries(apriltag_ros_continuous_node apriltag_ros_continuous_detector ${catkin_LIBRARIES})
 
-add_executable(${PROJECT_NAME}_single_image_server_node src/${PROJECT_NAME}_single_image_server_node.cpp)
-add_dependencies(${PROJECT_NAME}_single_image_server_node ${PROJECT_NAME}_generate_messages_cpp)
-target_link_libraries(${PROJECT_NAME}_single_image_server_node ${PROJECT_NAME}_single_image_detector ${catkin_LIBRARIES})
+add_executable(apriltag_ros_single_image_server_node src/apriltag_ros_single_image_server_node.cpp)
+add_dependencies(apriltag_ros_single_image_server_node apriltag_ros_generate_messages_cpp)
+target_link_libraries(apriltag_ros_single_image_server_node apriltag_ros_single_image_detector ${catkin_LIBRARIES})
 
-add_executable(${PROJECT_NAME}_single_image_client_node src/${PROJECT_NAME}_single_image_client_node.cpp)
-add_dependencies(${PROJECT_NAME}_single_image_client_node ${PROJECT_NAME}_generate_messages_cpp)
-target_link_libraries(${PROJECT_NAME}_single_image_client_node ${PROJECT_NAME}_common ${catkin_LIBRARIES})
+add_executable(apriltag_ros_single_image_client_node src/apriltag_ros_single_image_client_node.cpp)
+add_dependencies(apriltag_ros_single_image_client_node apriltag_ros_generate_messages_cpp)
+target_link_libraries(apriltag_ros_single_image_client_node apriltag_ros_common ${catkin_LIBRARIES})
 
 
 #############
@@ -123,12 +123,12 @@ install(FILES nodelet_plugins.xml
 )
 
 install(TARGETS
-  ${PROJECT_NAME}_common
-  ${PROJECT_NAME}_continuous_detector
-  ${PROJECT_NAME}_single_image_detector
-  ${PROJECT_NAME}_continuous_node
-  ${PROJECT_NAME}_single_image_server_node
-  ${PROJECT_NAME}_single_image_client_node
+apriltag_ros_common
+apriltag_ros_continuous_detector
+apriltag_ros_single_image_detector
+apriltag_ros_continuous_node
+apriltag_ros_single_image_server_node
+apriltag_ros_single_image_client_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

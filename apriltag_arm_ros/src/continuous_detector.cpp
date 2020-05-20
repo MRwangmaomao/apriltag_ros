@@ -29,13 +29,13 @@
  * Technology.
  */
 
-#include "apriltag_ros/continuous_detector.h"
+#include "apriltag_arm_ros/continuous_detector.h"
 
 #include <pluginlib/class_list_macros.h>
 
-PLUGINLIB_EXPORT_CLASS(apriltag_ros::ContinuousDetector, nodelet::Nodelet);
+PLUGINLIB_EXPORT_CLASS(apriltag_arm_ros::ContinuousDetector, nodelet::Nodelet);
 
-namespace apriltag_ros
+namespace apriltag_arm_ros
 {
 
 ContinuousDetector::ContinuousDetector ()
@@ -96,4 +96,4 @@ void ContinuousDetector::imageCallback (
   }
 }
 
-} // namespace apriltag_ros
+} // namespace apriltag_arm_ros

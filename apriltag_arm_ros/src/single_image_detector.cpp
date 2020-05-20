@@ -93,4 +93,4 @@ bool SingleImageDetector::analyzeImage(
   return true;
 }
 
-} // namespace apriltag_arm_ros
+} // namespace apriltag_ros

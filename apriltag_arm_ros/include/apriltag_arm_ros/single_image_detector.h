@@ -28,51 +28,44 @@
  * policies, either expressed or implied, of the California Institute of
  * Technology.
  *
- ** continuous_detector.h ******************************************************
+ ** single_image_detector.h ****************************************************
  *
- * Wrapper class of TagDetector class which calls TagDetector::detectTags on
- * each newly arrived image published by a camera.
+ * Wrapper class of TagDetector class which calls TagDetector::detectTags on a
+ * an image stored at a specified load path and stores the output at a specified
+ * save path.
  *
  * $Revision: 1.0 $
- * $Date: 2017/12/17 13:25:52 $
+ * $Date: 2017/12/17 13:33:40 $
  * $Author: dmalyuta $
  *
  * Originator:        Danylo Malyuta, JPL
  ******************************************************************************/
 
-#ifndef APRILTAG_ROS_CONTINUOUS_DETECTOR_H
-#define APRILTAG_ROS_CONTINUOUS_DETECTOR_H
+#ifndef APRILTAG_ROS_SINGLE_IMAGE_DETECTOR_H
+#define APRILTAG_ROS_SINGLE_IMAGE_DETECTOR_H
 
-#include "apriltag_ros/common_functions.h"
+#include "apriltag_arm_ros/common_functions.h"
+#include <apriltag_arm_ros/AnalyzeSingleImage.h>
 
-#include <memory>
-
-#include <nodelet/nodelet.h>
-
-namespace apriltag_ros
+namespace apriltag_arm_ros
 {
 
-class ContinuousDetector: public nodelet::Nodelet
+class SingleImageDetector
 {
- public:
-   ContinuousDetector();
-  void onInit();
-
-  void imageCallback(const sensor_msgs::ImageConstPtr& image_rect,
-                     const sensor_msgs::CameraInfoConstPtr& camera_info);
-
  private:
-  std::shared_ptr<TagDetector> tag_detector_;
-  bool draw_tag_detections_image_;
-  bool publish_tag_detections_Coordinates_;
-  cv_bridge::CvImagePtr cv_image_;
+  TagDetector tag_detector_;
+  ros::ServiceServer single_image_analysis_service_;
 
-  std::shared_ptr<image_transport::ImageTransport> it_;
-  image_transport::CameraSubscriber camera_image_subscriber_;
-  image_transport::Publisher tag_detections_image_publisher_;
   ros::Publisher tag_detections_publisher_;
+  
+ public:
+  SingleImageDetector(ros::NodeHandle& nh, ros::NodeHandle& pnh);
+
+  // The function which provides the single image analysis service
+  bool analyzeImage(apriltag_arm_ros::AnalyzeSingleImage::Request& request,
+                     apriltag_arm_ros::AnalyzeSingleImage::Response& response);
 };
 
-} // namespace apriltag_ros
+} // namespace apriltag_arm_ros
 
-#endif // APRILTAG_ROS_CONTINUOUS_DETECTOR_H
+#endif // APRILTAG_ROS_SINGLE_IMAGE_DETECTOR_H

@@ -27,24 +27,52 @@
  * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the California Institute of
  * Technology.
- */
+ *
+ ** continuous_detector.h ******************************************************
+ *
+ * Wrapper class of TagDetector class which calls TagDetector::detectTags on
+ * each newly arrived image published by a camera.
+ *
+ * $Revision: 1.0 $
+ * $Date: 2017/12/17 13:25:52 $
+ * $Author: dmalyuta $
+ *
+ * Originator:        Danylo Malyuta, JPL
+ ******************************************************************************/
 
-#include <ros/ros.h>
+#ifndef APRILTAG_ROS_CONTINUOUS_DETECTOR_H
+#define APRILTAG_ROS_CONTINUOUS_DETECTOR_H
 
-#include <nodelet/loader.h>
+#include "apriltag_arm_ros/common_functions.h"
 
-int main(int argc, char **argv)
+#include <memory>
+
+#include <nodelet/nodelet.h>
+
+namespace apriltag_arm_ros
 {
-  ros::init(argc, argv, "apriltag_ros");
 
-  nodelet::Loader nodelet;
-  nodelet::M_string remap(ros::names::getRemappings());
-  nodelet::V_string nargv;
+class ContinuousDetector: public nodelet::Nodelet
+{
+ public:
+   ContinuousDetector();
+  void onInit();
 
-  nodelet.load(ros::this_node::getName(),
-              "apriltag_ros/ContinuousDetector",
-              remap, nargv);
+  void imageCallback(const sensor_msgs::ImageConstPtr& image_rect,
+                     const sensor_msgs::CameraInfoConstPtr& camera_info);
 
-  ros::spin();
-  return 0;
-}
+ private:
+  std::shared_ptr<TagDetector> tag_detector_;
+  bool draw_tag_detections_image_;
+  bool publish_tag_detections_Coordinates_;
+  cv_bridge::CvImagePtr cv_image_;
+
+  std::shared_ptr<image_transport::ImageTransport> it_;
+  image_transport::CameraSubscriber camera_image_subscriber_;
+  image_transport::Publisher tag_detections_image_publisher_;
+  ros::Publisher tag_detections_publisher_;
+};
+
+} // namespace apriltag_arm_ros
+
+#endif // APRILTAG_ROS_CONTINUOUS_DETECTOR_H

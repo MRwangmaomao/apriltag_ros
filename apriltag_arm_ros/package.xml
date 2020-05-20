@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>apriltag_ros</name>
+  <name>apriltag_arm_ros</name>
   <version>2.0.0</version>
   <description>
     A ROS wrapper of the AprilTag 3 visual fiducial detection

@@ -6,10 +6,10 @@
   <arg name="image_save_path" /> <!-- Where to save tag detections image -->
 
   <!-- Set parameters -->
-  <rosparam command="load" file="$(find apriltag_ros)/config/settings.yaml" ns="$(arg node_namespace)" />
-  <rosparam command="load" file="$(find apriltag_ros)/config/tags.yaml" ns="$(arg node_namespace)" />
+  <rosparam command="load" file="$(find apriltag_arm_ros)/config/settings.yaml" ns="$(arg node_namespace)" />
+  <rosparam command="load" file="$(find apriltag_arm_ros)/config/tags.yaml" ns="$(arg node_namespace)" />
 
-  <node pkg="apriltag_ros" type="apriltag_ros_single_image_client_node" name="$(arg node_namespace)" clear_params="true" output="screen" launch-prefix="$(arg launch_prefix)" >
+  <node pkg="apriltag_arm_ros" type="apriltag_ros_single_image_client_node" name="$(arg node_namespace)" clear_params="true" output="screen" launch-prefix="$(arg launch_prefix)" >
 
     <param name="image_load_path" type="str" value="$(arg image_load_path)" />
     <param name="image_save_path" type="str" value="$(arg image_save_path)" />

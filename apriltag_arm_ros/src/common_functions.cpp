@@ -29,7 +29,7 @@
  * Technology.
  */
 
-#include "apriltag_ros/common_functions.h"
+#include "apriltag_arm_ros/common_functions.h"
 #include "image_geometry/pinhole_camera_model.h"
 
 #include "common/homography.h"
@@ -37,7 +37,7 @@
 #include "tag25h9.h"
 #include "tag16h5.h"
 
-namespace apriltag_ros
+namespace apriltag_arm_ros
 {
 
 TagDetector::TagDetector(ros::NodeHandle pnh) :
@@ -755,4 +755,4 @@ bool TagDetector::findStandaloneTagDescription (
   return true;
 }
 
-} // namespace apriltag_ros
+} // namespace apriltag_arm_ros
